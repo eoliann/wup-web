@@ -13,7 +13,7 @@ O aplicație desktop pentru WhatsApp Web care rulează în system tray cu suport
 
 ## 🚀 Instalare
 
-Descarcă ultima versiune din [Releases](https://github.com/numele-tau/whatsapp-web-tray/releases)
+Descarcă ultima versiune din [Releases](https://github.com/eoliann/whatsapp-web-tray/releases)
 
 ## 🔧 Compilare locală
 
