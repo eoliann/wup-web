@@ -14,6 +14,8 @@ O aplicație desktop pentru WhatsApp Web care rulează în system tray cu suport
 - Autostart cu Windows
 - Persistență sesiune
 
+<img width="458" height="47" alt="Screenshot 2025-08-03 100123" src="https://github.com/user-attachments/assets/a44ce655-8ae3-4559-8856-7ad24ccd3e30" />
+
 ## 🚀 Instalare
 
 Descarcă ultima versiune din [Releases](https://github.com/eoliann/whatsapp-web-tray/releases)
