@@ -1,3 +1,10 @@
+![Stars](https://img.shields.io/github/stars/eoliann/whatsapp-web-tray?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/eoliann/whatsapp-web-tray?style=flat-square)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
+![Release Date](https://img.shields.io/github/release-date/eoliann/whatsapp-web-tray?style=flat-square)
+[![Total Downloads](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest)
+
+
 # WhatsApp Web Tray
 
 <img width="1202" height="832" alt="Screenshot 2025-08-03 100059" src="https://github.com/user-attachments/assets/ac34e84e-166d-4e46-aebd-b1bdccc910ee" />
