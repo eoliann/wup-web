@@ -2,8 +2,8 @@
 ![Last Commit](https://img.shields.io/github/last-commit/eoliann/whatsapp-web-tray?style=flat-square)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
 ![Release Date](https://img.shields.io/github/release-date/eoliann/whatsapp-web-tray?style=flat-square)
-[![Total Downloads](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest)
-
+![Total Downloads](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/total?style=flat-square)
+[![Downloads latest](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/latest/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest/download/whatsapp-web-tray.exe)
 
 # WhatsApp Web
 
@@ -25,7 +25,7 @@ A desktop application for WhatsApp Web that runs portably and can be sent to the
 
 ## 🚀 Installation
 
-Download the latest version from [Releases](https://github.com/eoliann/whatsapp-web-tray/releases)
+Download the latest version from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/latest/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest/download/whatsapp-web-tray.exe)
 
 ## 🔧 Local compilation
 
