@@ -1,0 +1,17 @@
+[package]
+name = "whatsapp-web-tray"
+version = "0.1.0"
+description = "WhatsApp BeOL"
+authors = ["eOL"]
+edition = "2021"
+build = "build.rs"
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0", features = ["tray-icon"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
