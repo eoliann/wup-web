@@ -5,18 +5,17 @@
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/total?style=flat-square)
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/latest/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest/download/whatsapp-web-tray.exe)
 
-# WhatsApp Web
+# WhatsApp Web Client
 
 <img width="1202" height="832" alt="Screenshot 2025-08-03 100059" src="https://github.com/user-attachments/assets/ac34e84e-166d-4e46-aebd-b1bdccc910ee" />
 
 
-A desktop application for WhatsApp Web that runs portably and can be sent to the system tray with support for multiple accounts.
+A desktop application for WhatsApp Web that runs portably and can be sent to the system tray.
 
 ## ✨ Features
 
 - WhatsApp Web in a dedicated window
 - System Tray (notification bar)
-- Multiple accounts (WhatsApp + Business)
 - Runs in the background
 - Autostart with Windows
 - Session persistence
@@ -33,7 +32,7 @@ Download the latest version from [![Downloads latest](https://img.shields.io/git
 2. Install Tauri CLI: `cargo install tauri-cli`
 3. Clone the repository
 4. Go to the folder `src-tauri`
-5. Rulează: `cargo tauri build`
+5. Run: `cargo tauri build`
 
 ## 📄 License
 
