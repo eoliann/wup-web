@@ -1,9 +1,9 @@
-![Stars](https://img.shields.io/github/stars/eoliann/whatsapp-web-tray?style=flat-square)
-![Last Commit](https://img.shields.io/github/last-commit/eoliann/whatsapp-web-tray?style=flat-square)
+![Stars](https://img.shields.io/github/stars/eoliann/wup-web?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/eoliann/wup-web?style=flat-square)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
-![Release Date](https://img.shields.io/github/release-date/eoliann/whatsapp-web-tray?style=flat-square)
-![Total Downloads](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/total?style=flat-square)
-[![Downloads latest](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/latest/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest/download/whatsapp-web-tray.exe)
+![Release Date](https://img.shields.io/github/release-date/eoliann/wup-web?style=flat-square)
+![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=flat-square)
+[![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
 
 # Wup Web
 
@@ -24,7 +24,7 @@ A desktop application for WhatsApp Web that runs portably and can be sent to the
 
 ## 🚀 Installation
 
-Download the latest version from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/whatsapp-web-tray/latest/total?style=flat-square)](https://github.com/eoliann/whatsapp-web-tray/releases/latest/download/whatsapp-web-tray.exe)
+Download the latest version from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/whatsapp-web-tray.exe)
 
 ## 🔧 Local compilation
 
