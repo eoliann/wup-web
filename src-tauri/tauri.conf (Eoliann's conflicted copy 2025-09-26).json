@@ -1,0 +1,40 @@
+{
+  "productName": "WUP Web",
+  "version": "1.0.0",
+  "identifier": "com.eoliann.wupweb",
+  "build": {
+    "frontendDist": "",
+    "devUrl": ""
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "label": "main",
+        "title": "WUP Web",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "visible": true,
+        "url": "https://web.whatsapp.com/"
+      }
+    ],
+    "trayIcon": {
+      "id": "main"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "identifier": "com.eoliann.wupweb",
+    "icon": [
+      "icons/icon.ico",
+      "icons/icon.png"
+    ]
+  },
+  "plugins": {}
+}
