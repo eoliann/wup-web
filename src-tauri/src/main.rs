@@ -14,8 +14,8 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             // Creăm meniul tray
-            let show = MenuItem::with_id(app, "show", "Afișează", true, None::<&str>)?;
-            let quit = MenuItem::with_id(app, "quit", "Ieșire", true, None::<&str>)?;
+            let show = MenuItem::with_id(app, "show", "Open", true, None::<&str>)?;
+            let quit = MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show, &quit])?;
 
             // Tray icon

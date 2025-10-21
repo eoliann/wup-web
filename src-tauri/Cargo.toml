@@ -1,6 +1,6 @@
 [package]
-name = "whatsapp-web-tray"
-version = "0.1.0"
+name = "wup-web"
+version = "1.0.0"
 description = "WhatsApp BeOL"
 authors = ["eOL"]
 edition = "2021"
