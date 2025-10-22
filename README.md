@@ -7,7 +7,7 @@
 
 # Wup Web
 
-<img width="1202" height="832" alt="Screenshot 2025-08-03 100059" src="https://github.com/user-attachments/assets/ac34e84e-166d-4e46-aebd-b1bdccc910ee" />
+<img width="1002" height="732" alt="wup-web-1 0 3-full" src="https://github.com/user-attachments/assets/d5ba8d82-9487-43f1-87ad-a5024d37eaa5" />
 
 A desktop application for WhatsApp Web that runs portably and can be sent to the system tray.
 
@@ -21,7 +21,7 @@ A desktop application for WhatsApp Web that runs portably and can be sent to the
 - Autostart with Windows
 - Session persistence
 
-<img width="458" height="47" alt="Screenshot 2025-08-03 100123" src="https://github.com/user-attachments/assets/a44ce655-8ae3-4559-8856-7ad24ccd3e30" />
+<img width="498" height="187" alt="wup-web-1 0 3" src="https://github.com/user-attachments/assets/c640104e-5fec-43c3-8ffd-0c01bc24795c" />
 
 ---
 
