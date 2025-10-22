@@ -14,40 +14,91 @@ jobs:
       RELEASE_NAME: ${{ github.event.release.name || github.repository }}
       RELEASE_TAG:  ${{ github.event.release.tag_name || github.ref_name }}
       RELEASE_URL:  ${{ github.event.release.html_url || format('{0}/{1}/releases', github.server_url, github.repository) }}
-      ASSET_URL:   ${{ github.event.release.assets[0].browser_download_url || '' }}
+      ASSET_URL:   ${{ github.event.release.assets && github.event.release.assets[0].browser_download_url || '' }}
 
     steps:
-      - name: Send Telegram notifications
+      - name: Show debug info
         run: |
-          TEXT="📢 <b>Wup Web (client web WhatsApp) are o nouă versiune pe GitHub!</b>
-          <b>${RELEASE_NAME}</b> (tag: <code>${RELEASE_TAG}</code>)
-          👉 <a href='${RELEASE_URL}'>Descarcă ultima versiune</a>"
+          echo "=== Debug environment ==="
+          echo "RELEASE_NAME=${RELEASE_NAME}"
+          echo "RELEASE_TAG=${RELEASE_TAG}"
+          echo "RELEASE_URL=${RELEASE_URL}"
+          echo "ASSET_URL=${ASSET_URL}"
+          echo "TG_CHATS (masked): *****"
+          echo "TG_BOT_TOKEN set? -> ${TG_BOT_TOKEN:+YES}"
+
+      - name: Send Telegram notifications
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -x
+
+          # Build message safely as a heredoc (preserve newlines)
+          read -r -d '' TEXT <<'EOF' || true
+📢 <b>Wup Web (client web WhatsApp) are o nouă versiune pe GitHub!</b>
+<b>${RELEASE_NAME}</b> (tag: <code>${RELEASE_TAG}</code>)
+👉 <a href='${RELEASE_URL}'>Descarcă ultima versiune</a>
+EOF
 
           if [[ -n "${ASSET_URL}" ]]; then
-            TEXT="$TEXT
-            ⬇️ <a href='${ASSET_URL}'>Descarcă fișierul .exe</a>"
+            TEXT="${TEXT}
+⬇️ <a href='${ASSET_URL}'>Descarcă fișierul .exe</a>"
           fi
 
-          IFS=',' read -r -a CHATS <<< "${TG_CHATS}"
-          for ITEM in "${CHATS[@]}"; do
-            ITEM_TRIM=$(echo "$ITEM" | xargs)
-            [[ -z "$ITEM_TRIM" ]] && continue
+          # Split TG_CHATS by comma (trim whitespace)
+          IFS=',' read -r -a CHATS <<< "${TG_CHATS:-}"
+          if [[ ${#CHATS[@]} -eq 0 ]]; then
+            echo "!!! Nu exista chat-uri in TG_CHATS"
+            exit 1
+          fi
 
-            if [[ "$ITEM_TRIM" == *":"* ]]; then
-              CHAT_ID="${ITEM_TRIM%%:*}"
-              THREAD_ID="${ITEM_TRIM##*:}"
-              echo ">>> Trimit catre $CHAT_ID in topic $THREAD_ID"
-              curl -s "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+          for raw in "${CHATS[@]}"; do
+            ITEM="$(echo "$raw" | xargs)"  # trim
+            [[ -z "$ITEM" ]] && continue
+
+            # Determine if thread format CHAT:THREAD
+            if [[ "$ITEM" == *:* ]]; then
+              CHAT_ID="${ITEM%%:*}"
+              THREAD_ID="${ITEM##*:}"
+              echo ">>> Trimit catre chat_id=${CHAT_ID} thread=${THREAD_ID}"
+              RESP=$(curl -s -w "\n%{http_code}" "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
                 -d chat_id="${CHAT_ID}" \
                 -d message_thread_id="${THREAD_ID}" \
                 -d parse_mode="HTML" \
-                --data-urlencode "text=${TEXT}"
+                --data-urlencode "text=${TEXT}")
             else
-              CHAT_ID="$ITEM_TRIM"
-              echo ">>> Trimit catre grup simplu $CHAT_ID"
-              curl -s "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+              CHAT_ID="$ITEM"
+              echo ">>> Trimit catre chat_id=${CHAT_ID}"
+              RESP=$(curl -s -w "\n%{http_code}" "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
                 -d chat_id="${CHAT_ID}" \
                 -d parse_mode="HTML" \
-                --data-urlencode "text=${TEXT}"
+                --data-urlencode "text=${TEXT}")
+            fi
+
+            # Separate body and http code
+            HTTP_CODE=$(echo "$RESP" | tail -n1)
+            BODY=$(echo "$RESP" | sed '$d')
+            echo "HTTP_STATUS=${HTTP_CODE}"
+            echo "BODY=${BODY}"
+
+            if [[ "$HTTP_CODE" != "200" && "$HTTP_CODE" != "201" ]]; then
+              echo "Eroare la trimitere (HTTP $HTTP_CODE). Vezi BODY de mai sus."
+              # Do not exit immediately for visibility of all chats; but mark failure
+              EXIT_CODE=1 || true
+            else
+              # Check Telegram 'ok' field
+              OK=$(echo "$BODY" | jq -r '.ok' 2>/dev/null || true)
+              if [[ "$OK" != "true" ]]; then
+                echo "Telegram API returned not ok: $BODY"
+                EXIT_CODE=1 || true
+              else
+                echo "Mesaj trimis cu succes."
+              fi
             fi
           done
+
+          # Exit with non-zero if any send failed
+          if [[ "${EXIT_CODE:-0}" -ne 0 ]]; then
+            exit 1
+          fi
+        # jq used for parsing, ensure it's available on runner (ubuntu-latest has jq)
