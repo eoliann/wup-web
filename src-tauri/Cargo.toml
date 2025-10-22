@@ -1,7 +1,11 @@
 [package]
 name = "wup-web"
-version = "1.0.0"
-description = "WhatsApp BeOL"
+version = "1.0.3"
+description = "WhatsApp Web Client"
+license = "MIT"
+homepage = "https://github.com/eoliann/wup-web"
+repository = "https://github.com/eoliann/wup-web"
+bugs = "https://github.com/eoliann/wup-web/issues"
 authors = ["eOL"]
 edition = "2021"
 build = "build.rs"
