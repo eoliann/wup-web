@@ -21,7 +21,7 @@ jobs:
         run: |
           TEXT="📢 <b>Wup Web (client web WhatsApp) are o nouă versiune pe GitHub!</b>
           <b>${RELEASE_NAME}</b> (tag: <code>${RELEASE_TAG}</code>)
-          👉 <a href='${RELEASE_URL}'>Mergi la pagina noii versiuni</a>"
+          👉 <a href='${RELEASE_URL}'>Descarcă ultima versiune</a>"
 
           if [[ -n "${ASSET_URL}" ]]; then
             TEXT="$TEXT
