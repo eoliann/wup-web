@@ -21,7 +21,7 @@ A desktop application for WhatsApp Web that runs portably and can be sent to the
 - Autostart with Windows
 - Session persistence
 
-<img width="498" height="187" alt="wup-web-1 0 3" src="https://github.com/user-attachments/assets/c640104e-5fec-43c3-8ffd-0c01bc24795c" />
+<img width="488" height="202" alt="wup-web-1 0 4-context-menu" src="https://github.com/user-attachments/assets/5751c5b9-e6ff-49a3-9d1d-0e079880837c" />
 
 ---
 
