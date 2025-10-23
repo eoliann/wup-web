@@ -7,7 +7,7 @@
 
 # Wup Web
 
-<img width="1002" height="732" alt="wup-web-1 0 4-full" src="https://github.com/user-attachments/assets/a4ac3dc6-725e-4914-8ec9-4007d06a7642" />
+<img width="1002" height="732" alt="wup-web-1 0 5-full" src="https://github.com/user-attachments/assets/ea2542a1-9666-41c8-bb30-719deb8ee588" />
 
 A desktop application for WhatsApp Web that runs portably and can be sent to the system tray.
 
@@ -20,14 +20,21 @@ A desktop application for WhatsApp Web that runs portably and can be sent to the
 - Runs in the background
 - Autostart with Windows
 - Session persistence
+- Install on system
 
-<img width="488" height="202" alt="wup-web-1 0 4-context-menu" src="https://github.com/user-attachments/assets/5751c5b9-e6ff-49a3-9d1d-0e079880837c" />
+<img width="500" height="233" alt="wup-web-1 0 5-context-menu" src="https://github.com/user-attachments/assets/bb763fef-88de-4c3c-9289-037ae42a65b1" />
+
+---
+
+## 🚀 Run Only
+
+Download the latest version of portable file from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
 
 ---
 
 ## 🚀 Installation
 
-Download the latest version from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/whatsapp-web-tray.exe)
+Download the latest version of installable file from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/Wup_Web_Installer.exe)
 
 ---
 
