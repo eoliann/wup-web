@@ -7,7 +7,7 @@
 
 # Wup Web
 
-<img width="1002" height="732" alt="wup-web-1 0 3-full" src="https://github.com/user-attachments/assets/d5ba8d82-9487-43f1-87ad-a5024d37eaa5" />
+<img width="1002" height="732" alt="wup-web-1 0 4-full" src="https://github.com/user-attachments/assets/a4ac3dc6-725e-4914-8ec9-4007d06a7642" />
 
 A desktop application for WhatsApp Web that runs portably and can be sent to the system tray.
 
