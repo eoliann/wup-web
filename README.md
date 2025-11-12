@@ -5,6 +5,18 @@
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=flat-square)
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
 
+
+![OS](https://badgen.net/badge/icon/windows?icon=windows&label=OS)
+![Lang](https://badgen.net/static/Lang/Rust/orange)
+![Stars](https://badgen.net/github/stars/eoliann/wup-web/)
+![Watchers](https://badgen.net/github/watchers/eoliann/wup-web)
+![Releases](https://badgen.net/github/releases/eoliann/wup-web)
+![Last Release](https://badgen.net/github/tag/eoliann/wup-web)
+![Downloads latest](https://badgen.net/github/assets-dl/eoliann/wup-web)
+[![Donate](https://badgen.net/static/Donate/PayPal/orange)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
+[![Donate](https://badgen.net/static/Donate/Revolut/f2a)](http://revolut.me/adriannm9)
+
+
 # Wup Web
 
 <img width="1002" height="732" alt="wup-web-1 0 5-full" src="https://github.com/user-attachments/assets/ea2542a1-9666-41c8-bb30-719deb8ee588" />
