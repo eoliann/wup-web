@@ -10,9 +10,9 @@
 ![Lang](https://badgen.net/static/Lang/Rust/orange)
 ![Stars](https://badgen.net/github/stars/eoliann/wup-web/)
 ![Watchers](https://badgen.net/github/watchers/eoliann/wup-web)
-![Releases](https://badgen.net/github/releases/eoliann/wup-web)
+[![Releases](https://badgen.net/github/releases/eoliann/wup-web)](https://github.com/eoliann/wup-web/releases)
 ![Last Release](https://badgen.net/github/tag/eoliann/wup-web)
-![Downloads latest](https://badgen.net/github/assets-dl/eoliann/wup-web)
+[![Downloads latest](https://badgen.net/github/assets-dl/eoliann/wup-web)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
 [![Donate](https://badgen.net/static/Donate/PayPal/orange)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
 [![Donate](https://badgen.net/static/Donate/Revolut/f2a)](http://revolut.me/adriannm9)
 
