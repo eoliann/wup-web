@@ -4,7 +4,8 @@
 ![Release Date](https://img.shields.io/github/release-date/eoliann/wup-web?style=flat-square)
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=flat-square)
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
-
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
+[![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2)](http://revolut.me/adriannm9)
 
 ![OS](https://badgen.net/badge/icon/windows?icon=windows&label=OS)
 ![Lang](https://badgen.net/static/Lang/Rust/orange)
