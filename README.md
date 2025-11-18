@@ -1,17 +1,22 @@
+![Followers](https://img.shields.io/github/followers/eoliann?style=plastic&color=green)
+![Watchers](https://img.shields.io/github/watchers/eoliann/wup-web?style=plastic)
 ![Stars](https://img.shields.io/github/stars/eoliann/wup-web?style=plastic)
-![Last Commit](https://img.shields.io/github/last-commit/eoliann/wup-web?style=plastic)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE.md)
+
 ![Release Date](https://img.shields.io/github/release-date/eoliann/wup-web?style=plastic)
+![Last Commit](https://img.shields.io/github/last-commit/eoliann/wup-web?style=plastic)
+
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=plastic)
 ![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/wup-web.exe?displayAssetName=true&style=plastic&color=green)
 ![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/Wup_Web_Installer.exe?displayAssetName=true&style=plastic&color=red)
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=plastic)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue?style=plastic)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
-[![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2?style=plastic)](http://revolut.me/adriannm9)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE.md)
 ![OS](https://img.shields.io/badge/OS-Windows-blue?style=plastic)
 ![Lang](https://img.shields.io/badge/Lang-Rust-magenta?style=plastic)
-![Followers](https://img.shields.io/github/followers/eoliann?style=plastic&color=green)
-![Watchers](https://img.shields.io/github/watchers/eoliann/wup-web?style=plastic)
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue?style=plastic)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
+[![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2?style=plastic)](http://revolut.me/adriannm9)
+
 
 
 # Wup Web
