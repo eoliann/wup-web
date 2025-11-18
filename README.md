@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
 ![Release Date](https://img.shields.io/github/release-date/eoliann/wup-web?style=flat-square)
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=flat-square)
+![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/wup-web.exe?displayAssetName=true&style=plastic&color=green)
+![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/Wup_Web_Installer.exe?displayAssetName=true&style=plastic&color=red)
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
 [![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2)](http://revolut.me/adriannm9)
