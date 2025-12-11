@@ -1,7 +1,7 @@
 ![Followers](https://img.shields.io/github/followers/eoliann?style=plastic&color=green)
 ![Watchers](https://img.shields.io/github/watchers/eoliann/wup-web?style=plastic)
 ![Stars](https://img.shields.io/github/stars/eoliann/wup-web?style=plastic)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue?style=plastic)](https://www.paypal.com/donate/?hosted_button_id=U9XAX3XBTU67G)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue?style=plastic)](https://www.paypal.com/donate/?hosted_button_id=PTH2EXUDS423S)
 [![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2?style=plastic)](http://revolut.me/adriannm9)
 
 ![Release Date](https://img.shields.io/github/release-date/eoliann/wup-web?style=plastic)
