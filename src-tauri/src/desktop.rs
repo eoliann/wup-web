@@ -1,6 +1,6 @@
 use std::sync::{Arc, Mutex};
 use tauri::{
-    menu::{Menu, MenuItem},
+    menu::{Menu, MenuItem, PredefinedMenuItem, Submenu},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     AppHandle, Manager, WindowBuilder, WindowEvent,
 };
@@ -9,6 +9,16 @@ use crate::{accounts, check_autostart, disable_autostart_impl, enable_autostart_
 
 fn menu(app: &AppHandle, tray: bool) -> tauri::Result<(Menu<tauri::Wry>, MenuItem<tauri::Wry>)> {
     let menu = Menu::new(app)?;
+    if tray {
+        menu.append(&MenuItem::with_id(
+            app,
+            "version",
+            format!("Wup Web {}", env!("CARGO_PKG_VERSION")),
+            false,
+            None::<&str>,
+        )?)?;
+        menu.append(&PredefinedMenuItem::separator(app)?)?;
+    }
     accounts::append_menu(app, &menu)?;
     if tray {
         menu.append(&MenuItem::with_id(app, "show", "Open", true, None::<&str>)?)?;
@@ -20,22 +30,32 @@ fn menu(app: &AppHandle, tray: bool) -> tauri::Result<(Menu<tauri::Wry>, MenuIte
         true,
         None::<&str>,
     )?;
-    menu.append(&autostart)?;
     #[cfg(windows)]
-    menu.append(&MenuItem::with_id(
-        app,
-        "updates",
-        "Check for updates",
-        true,
-        None::<&str>,
-    )?)?;
-    menu.append(&MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?)?;
+    let updates = MenuItem::with_id(app, "updates", "Check for updates", true, None::<&str>)?;
+    let quit = MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?;
+    let actions = [
+        &autostart,
+        #[cfg(windows)]
+        &updates,
+        &quit,
+    ];
+    if tray {
+        for item in actions {
+            menu.append(item)?;
+        }
+    } else {
+        let options = Submenu::new(app, "Options", true)?;
+        for item in actions {
+            options.append(item)?;
+        }
+        menu.append(&options)?;
+    }
     Ok((menu, autostart))
 }
 
 fn autostart_label(enabled: bool) -> &'static str {
     if enabled {
-        "Disable autostart"
+        "Disable StartUp"
     } else {
         "Enable autostart"
     }
