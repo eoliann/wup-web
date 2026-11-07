@@ -90,6 +90,9 @@ fn open_view(app: &AppHandle, index: usize, path: PathBuf) -> tauri::Result<()> 
         state.counts[index] = count;
         let refresh = changed && state.selected == index;
         drop(state);
+        if changed {
+            crate::switcher::sync(app);
+        }
         if refresh {
             crate::badges::refresh(app, count);
         }
@@ -173,6 +176,14 @@ pub fn select(app: &AppHandle, index: usize) -> tauri::Result<()> {
 pub fn selected(app: &AppHandle) -> usize {
     app.try_state::<Accounts>()
         .map_or(0, |accounts| accounts.state.lock().unwrap().selected)
+}
+
+pub fn toolbar_state(app: &AppHandle) -> (usize, [Option<u32>; COUNT]) {
+    app.try_state::<Accounts>()
+        .map_or((0, [None; COUNT]), |accounts| {
+            let state = accounts.state.lock().unwrap();
+            (state.selected, state.counts)
+        })
 }
 
 pub fn resize(app: &AppHandle, bounds: tauri::Rect) {

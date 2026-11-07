@@ -30,6 +30,11 @@ tray icon and optional Windows autostart.
 
 Wup Web uses the Microsoft Edge WebView2 Runtime.
 
+## What's new in 2.0.1
+
+- Each account button shows its own unread count, including for accounts in
+  the background. The badge clears when that account has no unread items.
+
 ## What's new in 2.0.0
 
 - **Four accounts.** Link each account in a separate slot. Use the buttons

@@ -53,8 +53,11 @@ pub fn resize(app: &AppHandle) {
 
 pub fn sync(app: &AppHandle) {
     if let Some(view) = app.get_webview(LABEL) {
-        let index = crate::accounts::selected(app);
-        let _ = view.eval(format!("window.showSelected?.({index})"));
+        let (index, counts) = crate::accounts::toolbar_state(app);
+        let _ = view.eval(format!(
+            "window.showAccounts?.({index}, {})",
+            serde_json::json!(counts)
+        ));
     }
 }
 

@@ -1,6 +1,6 @@
 [package]
 name = "wup-web"
-version = "2.0.0"
+version = "2.0.1"
 description = "WhatsApp Web Client"
 license = "MIT"
 homepage = "https://github.com/eoliann/wup-web"

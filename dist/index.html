@@ -40,6 +40,9 @@
       border-bottom: 1px solid var(--border);
     }
     button {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       min-height: 32px;
       padding: 0 10px;
       border: 1px solid var(--border);
@@ -57,7 +60,25 @@
       background: var(--active);
       color: var(--active-ink);
     }
+    .badge {
+      min-width: 1.5em;
+      max-width: 5em;
+      padding: 2px 4px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #00422e;
+      color: #fff4b5;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      text-overflow: ellipsis;
+    }
     #status { font-size: 12px; }
+    @media (max-width: 460px) {
+      .account-word { display: none; }
+      button { flex: 1; min-width: 0; justify-content: center; }
+      #status:empty { display: none; }
+    }
     @media (max-width: 365px) {
       nav { padding: 0 6px; gap: 4px; }
       button { padding: 0 6px; }
@@ -66,21 +87,28 @@
 </head>
 <body>
   <nav aria-label="WhatsApp accounts">
-    <button type="button" aria-pressed="true">Account 1</button>
-    <button type="button" aria-pressed="false">Account 2</button>
-    <button type="button" aria-pressed="false">Account 3</button>
-    <button type="button" aria-pressed="false">Account 4</button>
+    <button type="button" aria-pressed="true" aria-label="Account 1"><span><span class="account-word">Account </span>1</span><span class="badge" aria-hidden="true" hidden></span></button>
+    <button type="button" aria-pressed="false" aria-label="Account 2"><span><span class="account-word">Account </span>2</span><span class="badge" aria-hidden="true" hidden></span></button>
+    <button type="button" aria-pressed="false" aria-label="Account 3"><span><span class="account-word">Account </span>3</span><span class="badge" aria-hidden="true" hidden></span></button>
+    <button type="button" aria-pressed="false" aria-label="Account 4"><span><span class="account-word">Account </span>4</span><span class="badge" aria-hidden="true" hidden></span></button>
     <span id="status" role="status"></span>
   </nav>
   <script>
     const buttons = Array.from(document.querySelectorAll('button'));
     const status = document.getElementById('status');
 
-    window.showSelected = (selected) => {
+    window.showAccounts = (selected, counts) => {
       buttons.forEach((button, index) => {
+        const badge = button.querySelector('.badge');
+        const count = counts[index];
+        const label = `Account ${index + 1}`;
+        const description = count > 0 ? `${label}, ${count} unread` : label;
         button.setAttribute('aria-pressed', String(index === selected));
+        button.setAttribute('aria-label', description);
+        button.title = description;
+        badge.hidden = !(count > 0);
+        badge.textContent = count > 0 ? String(count) : '';
       });
-      status.textContent = '';
     };
 
     window.switchFailed = () => {
@@ -89,6 +117,7 @@
 
     buttons.forEach((button, index) => {
       button.addEventListener('click', async () => {
+        status.textContent = '';
         try {
           await window.__TAURI_INTERNALS__.invoke('select_account', { index });
         } catch {
