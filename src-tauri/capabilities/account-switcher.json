@@ -1,0 +1,6 @@
+{
+  "identifier": "account-switcher",
+  "description": "Allows the bundled account toolbar to select a session.",
+  "webviews": ["account-switcher"],
+  "permissions": ["allow-select-account"]
+}

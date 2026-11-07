@@ -3,7 +3,6 @@
 ![Stars](https://img.shields.io/github/stars/eoliann/wup-web?style=plastic)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue?style=plastic)](https://www.paypal.com/donate/?hosted_button_id=PTH2EXUDS423S)
 [![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2?style=plastic)](https://revolut.me/adriannm9)
-[![Donate](https://img.shields.io/badge/Donate-Revolut-8A2BE2?style=plastic)](https://revolut.me/adriannm9)
 [![Donate](https://img.shields.io/badge/Donate-KoFi-green?style=plastic)](https://ko-fi.com/eoliann)
 
 
@@ -14,50 +13,47 @@
 ![Lang](https://img.shields.io/badge/Lang-Rust-magenta?style=plastic)
 
 ![Total Downloads](https://img.shields.io/github/downloads/eoliann/wup-web/total?style=plastic)
-![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/wup-web.exe?displayAssetName=true&style=plastic&color=green)
-![](https://img.shields.io/github/downloads/eoliann/wup-web/latest/Wup_Web_Installer.exe?displayAssetName=true&style=plastic&color=red)
-[![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=plastic)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
+[![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=plastic)](https://github.com/eoliann/wup-web/releases/latest)
+[![Installer downloads](https://img.shields.io/github/downloads/eoliann/wup-web/latest/Wup_Web_Installer.exe?style=plastic&label=installer%20downloads)](https://github.com/eoliann/wup-web/releases/latest/download/Wup_Web_Installer.exe)
 
 # Wup Web
 
-<img width="1002" height="732" alt="wup-web-1 0 5-full" src="https://github.com/user-attachments/assets/ea2542a1-9666-41c8-bb30-719deb8ee588" />
+A Windows desktop client for WhatsApp Web, with persistent sessions, a system
+tray icon and optional Windows autostart.
 
-A desktop application for WhatsApp Web that runs portably and can be sent to the system tray.
+## Download
 
----
+- [Download the Wup Web installer (Windows x64)](https://github.com/eoliann/wup-web/releases/latest/download/Wup_Web_Installer.exe)
+- [Latest release and release notes](https://github.com/eoliann/wup-web/releases/latest)
 
-## ✨ Features
+Wup Web uses the Microsoft Edge WebView2 Runtime.
 
-- WhatsApp Web in a dedicated window
-- System Tray (notification bar)
-- Runs in the background
-- Autostart with Windows
-- Session persistence
-- Install on system
+## What's new in 2.0.0
 
-<img width="500" height="233" alt="wup-web-1 0 5-context-menu" src="https://github.com/user-attachments/assets/bb763fef-88de-4c3c-9289-037ae42a65b1" />
+- **Four accounts.** Link each account in a separate slot. Use the buttons
+  above the conversations to switch accounts in one click. The active account
+  is highlighted, and the other sessions stay open in the background.
+- **Desktop notifications.** Enable desktop notifications in WhatsApp Web for
+  each account. Windows alerts depend on the events WhatsApp Web delivers to
+  WebView2 and on your notification settings.
+- **Unread badge.** The taskbar and tray display the selected account's
+  WhatsApp Web unread indicator, in pale yellow on dark green.
+- **GitHub updates.** Wup Web checks at startup and from **Check for updates**
+  in the window or tray menu. Applying an update requires confirmation and
+  verification against the installer's GitHub SHA-256 digest.
 
----
+## Local build
 
-## 🚀 Run Only
+On Windows, install the Rust MSVC toolchain and the Visual Studio C++ build
+tools. From the repository root, run:
 
-Download the latest version of portable file from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/wup-web.exe)
+```powershell
+cargo build --release --locked --manifest-path src-tauri/Cargo.toml
+cargo test --locked --manifest-path src-tauri/Cargo.toml
+```
 
----
-
-## 🚀 Installation
-
-Download the latest version of installable file from [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=flat-square)](https://github.com/eoliann/wup-web/releases/latest/download/Wup_Web_Installer.exe)
-
----
-
-## 🔧 Local compilation
-
-1. Install Rust: https://www.rust-lang.org/
-2. Install Tauri CLI: `cargo install tauri-cli`
-3. Clone the repository
-4. Go to the folder `src-tauri`
-5. Run: `cargo tauri build`
+Build the installer with Inno Setup using `installer/WupWeb.iss` and pass
+`src-tauri/target/release/wup-web.exe` as the input binary.
 
 ---
 

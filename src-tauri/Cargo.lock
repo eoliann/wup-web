@@ -4586,10 +4586,16 @@ dependencies = [
 
 [[package]]
 name = "wup-web"
-version = "1.0.5"
+version = "2.0.0"
 dependencies = [
+ "semver",
+ "serde_json",
+ "sha2",
  "tauri",
  "tauri-build",
+ "webview2-com",
+ "windows 0.61.3",
+ "windows-core 0.61.2",
  "winreg 0.10.1",
 ]
 

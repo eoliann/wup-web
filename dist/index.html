@@ -1,11 +1,101 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Wup Web</title>
-    </head>
-    <body>
-        <script>
-            window.location.href = 'https://web.whatsapp.com';
-        </script>
-    </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wup Web accounts</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --surface: #f1f5f3;
+      --button: #fff;
+      --border: #a6bdb4;
+      --ink: #15382d;
+      --active: #005b43;
+      --active-ink: #fff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: #132621;
+        --button: #203930;
+        --border: #4c7264;
+        --ink: #e0f2ea;
+        --active: #9de9cf;
+        --active-ink: #123629;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font: 600 13px "Segoe UI", sans-serif;
+    }
+    nav {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    button {
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--button);
+      color: var(--ink);
+      font: inherit;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--active); }
+    button:focus-visible { outline: 2px solid var(--active); outline-offset: 2px; }
+    button[aria-pressed="true"] {
+      border-color: var(--active);
+      background: var(--active);
+      color: var(--active-ink);
+    }
+    #status { font-size: 12px; }
+    @media (max-width: 365px) {
+      nav { padding: 0 6px; gap: 4px; }
+      button { padding: 0 6px; }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="WhatsApp accounts">
+    <button type="button" aria-pressed="true">Account 1</button>
+    <button type="button" aria-pressed="false">Account 2</button>
+    <button type="button" aria-pressed="false">Account 3</button>
+    <button type="button" aria-pressed="false">Account 4</button>
+    <span id="status" role="status"></span>
+  </nav>
+  <script>
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const status = document.getElementById('status');
+
+    window.showSelected = (selected) => {
+      buttons.forEach((button, index) => {
+        button.setAttribute('aria-pressed', String(index === selected));
+      });
+      status.textContent = '';
+    };
+
+    window.switchFailed = () => {
+      status.textContent = 'Could not switch accounts.';
+    };
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', async () => {
+        try {
+          await window.__TAURI_INTERNALS__.invoke('select_account', { index });
+        } catch {
+          window.switchFailed();
+        }
+      });
+    });
+  </script>
+</body>
 </html>

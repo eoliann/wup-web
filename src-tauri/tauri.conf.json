@@ -1,21 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Wup Web",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "identifier": "com.example.whatsapp",
   "build": {
     "frontendDist": "../dist"
   },
   "app": {
-    "windows": [
-      {
-        "label": "main",
-        "title": "Wup Web",
-        "width": 1000,
-        "height": 700,
-        "visible": true
-      }
-    ]
+    "windows": []
   },
   "bundle": {
     "active": true,
