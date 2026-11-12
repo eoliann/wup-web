@@ -21,8 +21,9 @@ OutputBaseFilename=Wup_Web_Installer
 SetupIconFile=..\src-tauri\icons\icon.ico
 UninstallDisplayIcon={app}\wup-web.exe
 UninstallDisplayName=Wup Web
-CloseApplications=yes
-AppMutex=Local\eoliann.wup-web
+CloseApplications=force
+CloseApplicationsFilter=wup-web.exe
+AppMutex={code:UninstallAppMutex}
 Compression=lzma2
 SolidCompression=yes
 
@@ -38,3 +39,12 @@ Name: "{autodesktop}\Wup Web"; Filename: "{app}\wup-web.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\wup-web.exe"; Description: "Launch Wup Web"; Flags: nowait postinstall skipifsilent
+
+[Code]
+function UninstallAppMutex(Param: String): String;
+begin
+  { Let Restart Manager close the installed executable during an upgrade. }
+  Result := '';
+  if IsUninstaller then
+    Result := 'Local\eoliann.wup-web';
+end;

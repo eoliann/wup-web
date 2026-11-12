@@ -123,10 +123,6 @@ pub fn run() {
                 }
                 _ => (),
             });
-            #[cfg(windows)]
-            if !std::env::args().any(|arg| arg == "--no-update-check") {
-                crate::updater::check(app.handle(), false);
-            }
             Ok(())
         })
         .on_menu_event(move |app, event| {
@@ -165,6 +161,14 @@ pub fn run() {
                 eprintln!("Wup Web menu action: {error}");
             }
         })
-        .run(tauri::generate_context!())
-        .expect("Wup Web startup failed");
+        .build(tauri::generate_context!())
+        .expect("Wup Web startup failed")
+        .run(|_app, _event| {
+            #[cfg(windows)]
+            if matches!(_event, tauri::RunEvent::Ready)
+                && !std::env::args_os().any(|arg| arg == "--no-update-check")
+            {
+                crate::updater::check(_app, false);
+            }
+        });
 }

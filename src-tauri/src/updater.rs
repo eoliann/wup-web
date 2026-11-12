@@ -97,6 +97,8 @@ fn latest() -> Result<Option<Value>, String> {
             "1048576",
             "--header",
             "Accept: application/vnd.github+json",
+            "--header",
+            "Cache-Control: no-cache",
             "--write-out",
             "\n%{http_code}",
             API,

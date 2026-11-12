@@ -61,9 +61,25 @@
       background: var(--active);
       color: var(--active-ink);
     }
-    .account { flex: 1; min-width: 0; }
-    .account-name { overflow: hidden; text-overflow: ellipsis; }
+    .account-list {
+      display: flex;
+      align-items: center;
+      gap: inherit;
+      min-width: 0;
+      padding: 3px;
+      margin-inline: -3px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .account {
+      flex: none;
+      max-width: 100%;
+      min-height: 30px;
+      border-radius: 999px;
+    }
+    .account-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
     .avatar { flex: none; width: 20px; height: 20px; border-radius: 50%; }
+    #edit { flex: none; }
     form input {
       flex: 1;
       min-width: 0;
@@ -76,6 +92,7 @@
       font: inherit;
     }
     .badge {
+      flex: none;
       min-width: 1.5em;
       max-width: 5em;
       padding: 2px 4px;
@@ -95,7 +112,6 @@
         content: attr(data-default);
         font-size: 13px;
       }
-      .account { justify-content: center; }
     }
     @media (max-width: 365px) {
       nav, form, .notice { padding: 0 6px; gap: 4px; }
@@ -105,6 +121,7 @@
 </head>
 <body>
   <nav id="accounts" aria-label="WhatsApp accounts">
+    <div id="account-list" class="account-list"></div>
     <button id="edit" type="button">Edit</button>
   </nav>
   <form id="settings" aria-label="Edit selected account" hidden>
@@ -127,6 +144,7 @@
   </template>
   <script>
     const nav = document.getElementById('accounts');
+    const accountList = document.getElementById('account-list');
     const edit = document.getElementById('edit');
     const form = document.getElementById('settings');
     const nameInput = document.getElementById('name');
@@ -138,7 +156,7 @@
     const template = document.getElementById('account-template');
     const buttons = Array.from({ length: 4 }, () => {
       const button = template.content.firstElementChild.cloneNode(true);
-      nav.insertBefore(button, edit);
+      accountList.append(button);
       return button;
     });
     const invoke = (command, args) => window.__TAURI_INTERNALS__.invoke(command, args);
