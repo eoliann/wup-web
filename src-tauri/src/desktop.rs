@@ -65,9 +65,14 @@ pub fn run() {
     let autostart_items = Arc::new(Mutex::new(Vec::<MenuItem<tauri::Wry>>::new()));
     let menu_items = autostart_items.clone();
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![crate::switcher::select_account])
+        .invoke_handler(tauri::generate_handler![
+            crate::switcher::select_account,
+            crate::switcher::edit_account,
+        ])
         .setup(move |app| {
             let handle = app.handle();
+            let root = app.path().app_local_data_dir()?;
+            app.manage(accounts::Accounts::new(root));
             let (window_menu, window_autostart) = menu(handle, false)?;
             let (tray_menu, tray_autostart) = menu(handle, true)?;
             menu_items
@@ -101,9 +106,8 @@ pub fn run() {
             }
             tray.build(app)?;
 
-            let root = app.path().app_local_data_dir()?;
             crate::switcher::create(&window)?;
-            accounts::restore_profiles(handle, &root)?;
+            accounts::restore_profiles(handle)?;
             accounts::select(handle, 0)?;
             let handle = handle.clone();
             window.on_window_event(move |event| match event {

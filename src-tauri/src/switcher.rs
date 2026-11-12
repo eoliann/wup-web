@@ -53,12 +53,45 @@ pub fn resize(app: &AppHandle) {
 
 pub fn sync(app: &AppHandle) {
     if let Some(view) = app.get_webview(LABEL) {
-        let (index, counts) = crate::accounts::toolbar_state(app);
+        let (index, counts, preferences) = crate::accounts::toolbar_state(app);
         let _ = view.eval(format!(
-            "window.showAccounts?.({index}, {})",
+            "window.showAccounts?.({index}, {}, {preferences})",
             serde_json::json!(counts)
         ));
     }
+}
+
+#[tauri::command]
+pub async fn edit_account(
+    view: Webview,
+    index: usize,
+    action: String,
+    name: Option<String>,
+) -> Result<(), String> {
+    if view.label() != LABEL || index >= crate::accounts::COUNT {
+        return Err("Account settings are unavailable.".into());
+    }
+    let app = view.app_handle().clone();
+    let handle = app.clone();
+    let (reply, mut result) = tauri::async_runtime::channel(1);
+    app.run_on_main_thread(move || {
+        let outcome = match action.as_str() {
+            "rename" => crate::accounts::rename(&handle, index, name.as_deref().unwrap_or("")),
+            "reset_icon" => crate::accounts::set_avatar(&handle, index, None),
+            #[cfg(windows)]
+            "sync_icon" if crate::accounts::selected(&handle) == index => {
+                crate::whatsapp_profile::sync(&handle, index, reply);
+                return;
+            }
+            _ => Err("Account action is unavailable.".into()),
+        };
+        let _ = reply.try_send(outcome);
+    })
+    .map_err(|_| "Account settings are unavailable.")?;
+    result
+        .recv()
+        .await
+        .unwrap_or_else(|| Err("Account settings are unavailable.".into()))
 }
 
 #[tauri::command]

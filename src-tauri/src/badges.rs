@@ -72,7 +72,8 @@ pub fn refresh(app: &AppHandle, count: Option<u32>) {
             count.to_string()
         }
     });
-    let base = app.default_window_icon();
+    let avatar = crate::accounts::selected_icon(app);
+    let base = avatar.as_ref().or_else(|| app.default_window_icon());
     if let Some(tray) = app.tray_by_id("wup") {
         let icon = label
             .as_deref()
@@ -87,6 +88,9 @@ pub fn refresh(app: &AppHandle, count: Option<u32>) {
     }
     #[cfg(windows)]
     if let Some(window) = app.get_window("main") {
+        if let Some(icon) = base {
+            let _ = window.set_icon(icon.clone());
+        }
         let _ = window.set_overlay_icon(label.as_deref().map(|label| image(16, None, label)));
     }
 }

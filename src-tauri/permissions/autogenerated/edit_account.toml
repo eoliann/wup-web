@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-edit-account"
+description = "Enables the edit_account command without any pre-configured scope."
+commands.allow = ["edit_account"]
+
+[[permission]]
+identifier = "deny-edit-account"
+description = "Denies the edit_account command without any pre-configured scope."
+commands.deny = ["edit_account"]

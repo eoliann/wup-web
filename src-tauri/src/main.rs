@@ -5,12 +5,15 @@
 
 use std::{fs, path::Path, process::Command};
 
+mod account_preferences;
 mod accounts;
 mod badges;
 mod desktop;
 mod switcher;
 #[cfg(windows)]
 mod updater;
+#[cfg(windows)]
+mod whatsapp_profile;
 
 #[cfg(windows)]
 use winreg::enums::*;

@@ -1,8 +1,7 @@
-use std::{
-    path::{Path, PathBuf},
-    sync::Mutex,
-};
+use crate::account_preferences::{normalize_name, valid_avatar, Preferences};
+use std::{fs, path::PathBuf, sync::Mutex};
 use tauri::{
+    image::Image,
     menu::{Menu, MenuItem, Submenu},
     webview::WebviewBuilder,
     AppHandle, Manager, Url, WebviewUrl,
@@ -16,18 +15,27 @@ const WHATSAPP: &str = "https://web.whatsapp.com/";
 struct State {
     selected: usize,
     counts: [Option<u32>; LABELS.len()],
+    preferences: [Preferences; COUNT],
 }
 
 pub struct Accounts {
     root: PathBuf,
     state: Mutex<State>,
+    menu_items: Mutex<Vec<(usize, MenuItem<tauri::Wry>)>>,
 }
 
 impl Accounts {
     pub fn new(root: PathBuf) -> Self {
+        let preferences = std::array::from_fn(|index| {
+            Preferences::load(&root.join(format!("{}.json", LABELS[index])))
+        });
         Self {
             root,
-            state: Mutex::new(State::default()),
+            state: Mutex::new(State {
+                preferences,
+                ..State::default()
+            }),
+            menu_items: Mutex::default(),
         }
     }
 
@@ -45,20 +53,27 @@ pub fn index(id: &str) -> Option<usize> {
 }
 
 pub fn append_menu(app: &AppHandle, menu: &Menu<tauri::Wry>) -> tauri::Result<()> {
+    let accounts = app.state::<Accounts>();
     let submenu = Submenu::new(app, "Accounts", true)?;
     for (index, label) in LABELS.iter().enumerate() {
-        submenu.append(&MenuItem::with_id(
+        let item = MenuItem::with_id(
             app,
             *label,
-            format!("Account {}", index + 1),
+            menu_name(&accounts.state.lock().unwrap().preferences[index], index),
             true,
             None::<&str>,
-        )?)?;
+        )?;
+        submenu.append(&item)?;
+        accounts.menu_items.lock().unwrap().push((index, item));
     }
     menu.append(&submenu)
 }
 
-fn trusted(url: &Url) -> bool {
+fn menu_name(preferences: &Preferences, index: usize) -> String {
+    preferences.display_name(index).replace('&', "&&")
+}
+
+pub fn trusted(url: &Url) -> bool {
     url.scheme() == "https" && url.host_str() == Some("web.whatsapp.com") && url.port().is_none()
 }
 
@@ -80,6 +95,8 @@ fn open_view(app: &AppHandle, index: usize, path: PathBuf) -> tauri::Result<()> 
         WebviewUrl::External("about:blank".parse().unwrap()),
     )
     .data_directory(path)
+    // WebView2 must deliver native file drops to the page as HTML5 events.
+    .disable_drag_drop_handler()
     .on_navigation(|url| url.as_str() == "about:blank" || trusted(url))
     .on_document_title_changed(move |view, title| {
         let app = view.app_handle();
@@ -140,8 +157,7 @@ fn permit_web_notifications(
     }
 }
 
-pub fn restore_profiles(app: &AppHandle, root: &Path) -> tauri::Result<()> {
-    app.manage(Accounts::new(root.to_path_buf()));
+pub fn restore_profiles(app: &AppHandle) -> tauri::Result<()> {
     let accounts = app.state::<Accounts>();
     open_view(app, 0, accounts.profile_path(0))?;
     for index in 1..LABELS.len() {
@@ -178,12 +194,78 @@ pub fn selected(app: &AppHandle) -> usize {
         .map_or(0, |accounts| accounts.state.lock().unwrap().selected)
 }
 
-pub fn toolbar_state(app: &AppHandle) -> (usize, [Option<u32>; COUNT]) {
-    app.try_state::<Accounts>()
-        .map_or((0, [None; COUNT]), |accounts| {
-            let state = accounts.state.lock().unwrap();
-            (state.selected, state.counts)
+pub fn toolbar_state(app: &AppHandle) -> (usize, [Option<u32>; COUNT], serde_json::Value) {
+    let accounts = app.state::<Accounts>();
+    let state = accounts.state.lock().unwrap();
+    let preferences: Vec<_> = state
+        .preferences
+        .iter()
+        .enumerate()
+        .map(|(index, preferences)| {
+            serde_json::json!({
+                "label": preferences.display_name(index),
+                "name": preferences.name,
+                "avatar": preferences.avatar,
+            })
         })
+        .collect();
+    (state.selected, state.counts, serde_json::json!(preferences))
+}
+
+#[cfg(windows)]
+pub fn view(app: &AppHandle, index: usize) -> Option<tauri::Webview> {
+    app.get_webview(LABELS[index])
+}
+
+pub fn selected_icon(app: &AppHandle) -> Option<Image<'static>> {
+    let accounts = app.state::<Accounts>();
+    let state = accounts.state.lock().unwrap();
+    state.preferences[state.selected].icon()
+}
+
+pub fn rename(app: &AppHandle, index: usize, name: &str) -> Result<(), String> {
+    let name = normalize_name(name)?;
+    update_preferences(app, index, |preferences| preferences.name = name)
+}
+
+pub fn set_avatar(app: &AppHandle, index: usize, avatar: Option<String>) -> Result<(), String> {
+    if avatar
+        .as_deref()
+        .is_some_and(|avatar| !valid_avatar(avatar))
+    {
+        return Err("Could not read the profile photo.".into());
+    }
+    update_preferences(app, index, |preferences| preferences.avatar = avatar)
+}
+
+fn update_preferences(
+    app: &AppHandle,
+    index: usize,
+    update: impl FnOnce(&mut Preferences),
+) -> Result<(), String> {
+    let accounts = app.state::<Accounts>();
+    let mut state = accounts.state.lock().unwrap();
+    let mut preferences = state.preferences[index].clone();
+    update(&mut preferences);
+    let path = accounts.root.join(format!("{}.json", LABELS[index]));
+    fs::create_dir_all(&accounts.root)
+        .and_then(|()| preferences.save(&path))
+        .map_err(|_| "Could not save account settings.")?;
+    let label = menu_name(&preferences, index);
+    state.preferences[index] = preferences;
+    let selected = state.selected == index;
+    drop(state);
+    for (item_index, item) in accounts.menu_items.lock().unwrap().iter() {
+        if *item_index == index {
+            let _ = item.set_text(&label);
+        }
+    }
+    crate::switcher::sync(app);
+    if selected {
+        let _ = refresh_title(app);
+        refresh_badges(app);
+    }
+    Ok(())
 }
 
 pub fn resize(app: &AppHandle, bounds: tauri::Rect) {
@@ -203,14 +285,20 @@ pub fn refresh_badges(app: &AppHandle) {
     }
 }
 
+fn refresh_title(app: &AppHandle) -> tauri::Result<()> {
+    let accounts = app.state::<Accounts>();
+    let state = accounts.state.lock().unwrap();
+    let title = state.preferences[state.selected].display_name(state.selected);
+    drop(state);
+    app.get_window("main")
+        .expect("main window")
+        .set_title(&format!("Wup Web {} • {title}", env!("CARGO_PKG_VERSION"),))
+}
+
 pub fn show(app: &AppHandle) -> tauri::Result<()> {
     let index = selected(app);
     let window = app.get_window("main").expect("main window");
-    window.set_title(&format!(
-        "Wup Web {} • Account {}",
-        env!("CARGO_PKG_VERSION"),
-        index + 1
-    ))?;
+    refresh_title(app)?;
     window.show()?;
     window.unminimize()?;
     window.set_focus()?;

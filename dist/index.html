@@ -31,7 +31,7 @@
       color: var(--ink);
       font: 600 13px "Segoe UI", sans-serif;
     }
-    nav {
+    nav, form, .notice {
       height: 50px;
       display: flex;
       align-items: center;
@@ -39,6 +39,7 @@
       padding: 0 12px;
       border-bottom: 1px solid var(--border);
     }
+    [hidden] { display: none !important; }
     button {
       display: inline-flex;
       align-items: center;
@@ -60,6 +61,20 @@
       background: var(--active);
       color: var(--active-ink);
     }
+    .account { flex: 1; min-width: 0; }
+    .account-name { overflow: hidden; text-overflow: ellipsis; }
+    .avatar { flex: none; width: 20px; height: 20px; border-radius: 50%; }
+    form input {
+      flex: 1;
+      min-width: 0;
+      height: 32px;
+      padding: 0 7px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--button);
+      color: var(--ink);
+      font: inherit;
+    }
     .badge {
       min-width: 1.5em;
       max-width: 5em;
@@ -73,53 +88,173 @@
       text-align: center;
       text-overflow: ellipsis;
     }
-    #status { font-size: 12px; }
-    @media (max-width: 460px) {
-      .account-word { display: none; }
-      button { flex: 1; min-width: 0; justify-content: center; }
-      #status:empty { display: none; }
+    #status { flex: 1; font-size: 12px; }
+    @media (max-width: 540px) {
+      .account-name[data-default] { font-size: 0; }
+      .account-name[data-default]::after {
+        content: attr(data-default);
+        font-size: 13px;
+      }
+      .account { justify-content: center; }
     }
     @media (max-width: 365px) {
-      nav { padding: 0 6px; gap: 4px; }
+      nav, form, .notice { padding: 0 6px; gap: 4px; }
       button { padding: 0 6px; }
     }
   </style>
 </head>
 <body>
-  <nav aria-label="WhatsApp accounts">
-    <button type="button" aria-pressed="true" aria-label="Account 1"><span><span class="account-word">Account </span>1</span><span class="badge" aria-hidden="true" hidden></span></button>
-    <button type="button" aria-pressed="false" aria-label="Account 2"><span><span class="account-word">Account </span>2</span><span class="badge" aria-hidden="true" hidden></span></button>
-    <button type="button" aria-pressed="false" aria-label="Account 3"><span><span class="account-word">Account </span>3</span><span class="badge" aria-hidden="true" hidden></span></button>
-    <button type="button" aria-pressed="false" aria-label="Account 4"><span><span class="account-word">Account </span>4</span><span class="badge" aria-hidden="true" hidden></span></button>
-    <span id="status" role="status"></span>
+  <nav id="accounts" aria-label="WhatsApp accounts">
+    <button id="edit" type="button">Edit</button>
   </nav>
+  <form id="settings" aria-label="Edit selected account" hidden>
+    <input id="name" aria-label="Account name" placeholder="Account name" autocomplete="off">
+    <button type="submit">Save</button>
+    <button id="photo" type="button" title="Sync your WhatsApp profile photo">Sync photo</button>
+    <button id="reset" type="button" title="Restore the default icon">Reset icon</button>
+    <button id="back" type="button">Back</button>
+  </form>
+  <div class="notice" hidden>
+    <span id="status" role="status"></span>
+    <button id="dismiss" type="button">OK</button>
+  </div>
+  <template id="account-template">
+    <button class="account" type="button" aria-pressed="false">
+      <canvas class="avatar" width="48" height="48" aria-hidden="true" hidden></canvas>
+      <span class="account-name"></span>
+      <span class="badge" aria-hidden="true" hidden></span>
+    </button>
+  </template>
   <script>
-    const buttons = Array.from(document.querySelectorAll('button'));
+    const nav = document.getElementById('accounts');
+    const edit = document.getElementById('edit');
+    const form = document.getElementById('settings');
+    const nameInput = document.getElementById('name');
+    const photo = document.getElementById('photo');
+    const reset = document.getElementById('reset');
     const status = document.getElementById('status');
+    const notice = status.parentElement;
+    const dismiss = document.getElementById('dismiss');
+    const template = document.getElementById('account-template');
+    const buttons = Array.from({ length: 4 }, () => {
+      const button = template.content.firstElementChild.cloneNode(true);
+      nav.insertBefore(button, edit);
+      return button;
+    });
+    const invoke = (command, args) => window.__TAURI_INTERNALS__.invoke(command, args);
+    let selected = 0;
+    let preferences = [];
+    let editing = null;
+    let busy = false;
 
-    window.showAccounts = (selected, counts) => {
+    window.showAccounts = (index, counts, accounts) => {
+      selected = index;
+      preferences = accounts;
       buttons.forEach((button, index) => {
         const badge = button.querySelector('.badge');
+        const accountName = button.querySelector('.account-name');
+        const avatar = button.querySelector('.avatar');
+        const { label, name, avatar: pixels } = accounts[index];
         const count = counts[index];
-        const label = `Account ${index + 1}`;
         const description = count > 0 ? `${label}, ${count} unread` : label;
         button.setAttribute('aria-pressed', String(index === selected));
         button.setAttribute('aria-label', description);
         button.title = description;
+        accountName.textContent = label;
+        if (name === null) accountName.dataset.default = index + 1;
+        else delete accountName.dataset.default;
+        avatar.hidden = !pixels;
+        if (pixels && avatar.dataset.pixels !== pixels) {
+          const context = avatar.getContext('2d');
+          const image = context.createImageData(avatar.width, avatar.height);
+          for (let i = 0; i < image.data.length; i++) {
+            image.data[i] = Number.parseInt(pixels.slice(i * 2, i * 2 + 2), 16);
+          }
+          context.putImageData(image, 0, 0);
+          avatar.dataset.pixels = pixels;
+        }
         badge.hidden = !(count > 0);
         badge.textContent = count > 0 ? String(count) : '';
       });
+      edit.setAttribute('aria-label', `Edit ${accounts[selected].label}`);
+      if (editing !== null) {
+        reset.hidden = !accounts[editing].avatar;
+        photo.disabled = editing !== selected;
+      }
     };
 
-    window.switchFailed = () => {
-      status.textContent = 'Could not switch accounts.';
+    function showNotice(message, pending = false) {
+      nav.hidden = form.hidden = true;
+      notice.hidden = false;
+      dismiss.hidden = pending;
+      status.textContent = message;
+      if (!pending) dismiss.focus();
+    }
+
+    function returnToAccounts() {
+      editing = null;
+      notice.hidden = form.hidden = true;
+      nav.hidden = false;
+    }
+
+    window.switchFailed = () => showNotice('Could not switch accounts.');
+    window.showAccounts(0, [], buttons.map((_, index) => ({
+      label: `Account ${index + 1}`, name: null, avatar: null
+    })));
+
+    edit.onclick = () => {
+      editing = selected;
+      const account = preferences[editing];
+      nameInput.value = account.name ?? '';
+      nameInput.placeholder = `Account ${editing + 1}`;
+      form.setAttribute('aria-label', `Edit ${account.label}`);
+      reset.hidden = !account.avatar;
+      photo.disabled = false;
+      nav.hidden = true;
+      form.hidden = false;
+      nameInput.focus();
     };
+    document.getElementById('back').onclick = dismiss.onclick = () => {
+      returnToAccounts();
+      edit.focus();
+    };
+
+    async function update(action, value, message) {
+      if (busy || editing === null) return;
+      busy = true;
+      showNotice(message, true);
+      let timeout;
+      try {
+        const request = invoke('edit_account', { index: editing, action, name: value });
+        if (action === 'sync_icon') {
+          await Promise.race([request, new Promise((_, reject) => {
+            timeout = setTimeout(() => reject('Photo selection timed out. Open your profile and try again.'), 30000);
+          })]);
+        } else {
+          await request;
+        }
+      } catch (error) {
+        showNotice(typeof error === 'string' ? error : 'Could not update account settings.');
+        return;
+      } finally {
+        clearTimeout(timeout);
+        busy = false;
+      }
+      returnToAccounts();
+      edit.focus();
+    }
+
+    form.onsubmit = event => {
+      event.preventDefault();
+      update('rename', nameInput.value, 'Saving account name…');
+    };
+    photo.onclick = () => update('sync_icon', null, 'Click your photo in your WhatsApp profile.');
+    reset.onclick = () => update('reset_icon', null, 'Restoring default icon…');
 
     buttons.forEach((button, index) => {
       button.addEventListener('click', async () => {
-        status.textContent = '';
         try {
-          await window.__TAURI_INTERNALS__.invoke('select_account', { index });
+          await invoke('select_account', { index });
         } catch {
           window.switchFailed();
         }

@@ -12,7 +12,15 @@ GitHub. Scenariile cu conturi reale rămân pentru validare.
 
 Progres. Configurația Codex a fost creată și verificată ca TOML. Verificarea `cargo check --locked` a trecut cu un cache Cargo temporar, separat de cel global. Proba locală Wup Web Probe a trecut buildul și testul de extragere a numărului din titlu. La pornire, ambele profiluri de test au fost create, au încărcat WhatsApp Web și au înregistrat observatorii WebView2.
 
-Următoarea acțiune. Conectează două conturi de test în probă și execută scenariile de mai jos. Rezultatele privind contorul exact, livrarea alertelor și persistența sesiunilor autentificate sunt încă deschise.
+Pentru 2.1.0, utilizatorul a confirmat în Windows, cu sesiunea existentă,
+atașarea unui fișier prin drag and drop, redenumirea contului, sincronizarea
+pozei de profil și păstrarea numelui și pictogramei după redeschidere. Mai rămâne
+proba de upgrade cu installerul. Verificările cu două sesiuni așteaptă un al
+doilea cont disponibil.
+
+Următoarea acțiune. Verifică scenariile de mai jos când există două conturi de
+test disponibile. Rezultatele privind contorul exact, livrarea alertelor și
+persistența mai multor sesiuni autentificate sunt încă deschise.
 
 - Verifică buildul versiunii actuale cu lockfile-ul din repository.
 - Pregătește două profiluri de test separate de profilul curent. Verifică persistența lor și funcționarea contului neselectat când aplicația este în tray.

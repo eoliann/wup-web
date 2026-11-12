@@ -177,10 +177,22 @@
       "description": "Permission identifier",
       "oneOf": [
         {
+          "description": "Enables the edit_account command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-edit-account",
+          "markdownDescription": "Enables the edit_account command without any pre-configured scope."
+        },
+        {
           "description": "Enables the select_account command without any pre-configured scope.",
           "type": "string",
           "const": "allow-select-account",
           "markdownDescription": "Enables the select_account command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the edit_account command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-edit-account",
+          "markdownDescription": "Denies the edit_account command without any pre-configured scope."
         },
         {
           "description": "Denies the select_account command without any pre-configured scope.",
