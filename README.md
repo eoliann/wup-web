@@ -31,25 +31,6 @@ tray icon and optional Windows autostart.
 
 Wup Web uses the Microsoft Edge WebView2 Runtime.
 
-## What's new in 2.0.1
-
-- Each account button shows its own unread count, including for accounts in
-  the background. The badge clears when that account has no unread items.
-
-## What's new in 2.0.0
-
-- **Four accounts.** Link each account in a separate slot. Use the buttons
-  above the conversations to switch accounts in one click. The active account
-  is highlighted, and the other sessions stay open in the background.
-- **Desktop notifications.** Enable desktop notifications in WhatsApp Web for
-  each account. Windows alerts depend on the events WhatsApp Web delivers to
-  WebView2 and on your notification settings.
-- **Unread badge.** The taskbar and tray display the selected account's
-  WhatsApp Web unread indicator, in pale yellow on dark green.
-- **GitHub updates.** Wup Web checks at startup and from **Check for updates**
-  in the window or tray menu. Applying an update requires confirmation and
-  verification against the installer's GitHub SHA-256 digest.
-
 ## Local build
 
 On Windows, install the Rust MSVC toolchain and the Visual Studio C++ build
