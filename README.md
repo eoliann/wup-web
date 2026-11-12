@@ -20,7 +20,8 @@
 
 A Windows desktop client for WhatsApp Web, with persistent sessions, a system
 tray icon and optional Windows autostart.
-<img width="1010" height="903" alt="Captură de ecran 2026-11-07 115645" src="https://github.com/user-attachments/assets/ae5ce351-220f-4cb7-825d-4b8f8d57d874" />
+<img width="1002" height="732" alt="1" src="https://github.com/user-attachments/assets/e7caef9c-d967-49e6-84e2-ba044b2ea9b2" />
+<img width="1002" height="732" alt="2" src="https://github.com/user-attachments/assets/6ad4689d-6724-47dd-b9cb-5904ff84e0c9" />
 
 
 ## Download
