@@ -16,7 +16,7 @@
 [![Downloads latest](https://img.shields.io/github/downloads/eoliann/wup-web/latest/total?style=plastic)](https://github.com/eoliann/wup-web/releases/latest)
 [![Installer downloads](https://img.shields.io/github/downloads/eoliann/wup-web/latest/Wup_Web_Installer.exe?style=plastic&label=installer%20downloads)](https://github.com/eoliann/wup-web/releases/latest/download/Wup_Web_Installer.exe)
 
-<p align="center"><img src=".github/downloads/chart.svg" alt="Progres descărcări" width="760"></p>
+<p align="center"><img src=".github/downloads/chart.svg" alt="Download progress" width="760"></p>
 
 # Wup Web
 
